@@ -11,7 +11,7 @@ class Channel:
 
     def __init__(self, channel_id: str) -> None:
         """Экземпляр инициализируется id канала. Дальше все данные будут подтягиваться по API."""
-        self.channel_id = channel_id
+        self._channel_id = channel_id
 
         service = Channel.get_service()
         parts = 'snippet,statistics'
@@ -22,7 +22,7 @@ class Channel:
         self.id = channel_id
         self.title = channel['title']
         self.description = channel['description']
-        self.url = f"https://www.youtube.com/channel/{channel_id}"
+        self.url = f"https://www.youtube.com/channel/{self._channel_id}"
         self.subscriber_count = statistics['subscriberCount']
         self.video_count = statistics['videoCount']
         self.view_count = statistics['viewCount']
@@ -30,8 +30,14 @@ class Channel:
 
     def print_info(self) -> None:
         """Выводит в консоль информацию о канале."""
-        channel = youtube.channels().list(id=self.channel_id, part='snippet,statistics').execute()
+        channel = youtube.channels().list(id=self._channel_id, part='snippet,statistics').execute()
         print(channel)
+
+
+    @property
+    def channel_id(self):
+        return self._channel_id
+
 
     @classmethod
     def get_service(cls):
@@ -45,7 +51,7 @@ class Channel:
         Сохраняет в файл значения атрибутов экземпляра Channel
         """
         data = {
-            'channel_id': self.channel_id,
+            'channel_id': self._channel_id,
             'title': self.title,
             'about': self.description,
             'url': self.url,
