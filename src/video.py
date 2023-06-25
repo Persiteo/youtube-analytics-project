@@ -3,6 +3,9 @@ from googleapiclient.discovery import build
 
 
 class Video:
+    """
+    to be continued...
+    """
     api_key: str = os.getenv('YT_API_KEY')
     youtube = build('youtube', 'v3', developerKey=api_key)
 
@@ -23,7 +26,9 @@ class Video:
 
 
 class PLVideo (Video):
-
+    """
+        to be continued, maybe...
+        """
     def __init__(self, video_id, playlist_id):
         super().__init__(video_id)
         self.playlist_id = playlist_id
